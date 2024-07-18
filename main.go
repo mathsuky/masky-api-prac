@@ -30,6 +30,18 @@ var dataList = []Fruit{
 func main() {
     e := echo.New()
 
+    e.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
+        return func(c echo.Context) error {
+            c.Response().Header().Set("Access-Control-Allow-Origin", "*")
+            c.Response().Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
+            c.Response().Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+            if c.Request().Method == "OPTIONS" {
+                return c.NoContent(http.StatusNoContent)
+            }
+            return next(c)
+        }
+    })
+
     e.GET("/", func(c echo.Context) error {
         return c.String(http.StatusOK, "Welcome to the API server!")
     })
