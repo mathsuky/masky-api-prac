@@ -3,10 +3,12 @@ FROM python:3.10-slim
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
-COPY app.py app.py
-
 RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 5000
+COPY . .
 
-CMD ["python", "app.py"]
+EXPOSE 5100
+
+ENV FLASK_APP=app.py
+
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5100"]
