@@ -51,5 +51,5 @@ func main() {
         return c.JSON(http.StatusOK, dataList[startIndex:endIndex+1])
     })
 
-    e.Logger.Fatal(e.Start(":5100"))
+    e.Logger.Fatal(e.Start(":8080"))
 }
