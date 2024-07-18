@@ -1,4 +1,5 @@
-from flask import Flask, jsonify, request
+# from flask import Flask, jsonify, request
+from flask import Flask
 
 app = Flask(__name__)
 
@@ -72,16 +73,16 @@ dataList = [
 ]
 
 
-@app.route('/api/fruits', methods=['GET'])
-def get_data():
-    start_index = request.args.get('startIndex', default=0, type=int)
-    end_index = request.args.get('endIndex', default=9, type=int)
+# @app.route('/api/fruits', methods=['GET'])
+# def get_data():
+#     start_index = request.args.get('startIndex', default=0, type=int)
+#     end_index = request.args.get('endIndex', default=9, type=int)
 
-    if start_index < 0 or end_index >= 10 or start_index > end_index:
-        return jsonify({"error": "Invalid index range"}), 400
+#     if start_index < 0 or end_index >= 10 or start_index > end_index:
+#         return jsonify({"error": "Invalid index range"}), 400
 
-    result = dataList[start_index:end_index + 1]
-    return jsonify(result)
+#     result = dataList[start_index:end_index + 1]
+#     return jsonify(result)
 
 
 if __name__ == '__main__':
