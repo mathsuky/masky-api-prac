@@ -94,11 +94,11 @@ func main() {
     e.GET("/pokemon", func(c echo.Context) error {
         startIndex, err := strconv.Atoi(c.QueryParam("startIndex"))
         if err != nil {
-            startIndex = 0
+            return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid value for startIndex"})
         }
         endIndex, err := strconv.Atoi(c.QueryParam("endIndex"))
         if err != nil {
-            endIndex = len(pokedex) - 1
+            return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid value for endIndex"})
         }
 
         if startIndex < 0 || endIndex >= len(pokedex) || startIndex > endIndex {
