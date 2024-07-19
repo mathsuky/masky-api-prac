@@ -8,12 +8,11 @@ import (
 )
 
 type Pokemon struct {
-	JpName     string
-	EnName     string
-	ImgUrl     string
-	FlavorText string
+    JpName     string
+    EnName     string
+    ImgUrl     string
+    FlavorText string
 }
-
 
 var pokedex = []Pokemon{
     {
@@ -72,6 +71,7 @@ var pokedex = []Pokemon{
     },
 }
 
+
 func main() {
     e := echo.New()
 
@@ -92,13 +92,27 @@ func main() {
     })
 
     e.GET("/pokemon", func(c echo.Context) error {
-        startIndex, err := strconv.Atoi(c.QueryParam("startIndex"))
-        if err != nil {
-            return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid value for startIndex"})
+        var startIndex, endIndex int
+        var err error
+
+        startIndexStr := c.QueryParam("startIndex")
+        if startIndexStr == "" {
+            startIndex = 0
+        } else {
+            startIndex, err = strconv.Atoi(startIndexStr)
+            if err != nil {
+                return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid value for startIndex"})
+            }
         }
-        endIndex, err := strconv.Atoi(c.QueryParam("endIndex"))
-        if err != nil {
-            return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid value for endIndex"})
+
+        endIndexStr := c.QueryParam("endIndex")
+        if endIndexStr == "" {
+            endIndex = len(pokedex) - 1
+        } else {
+            endIndex, err = strconv.Atoi(endIndexStr)
+            if err != nil {
+                return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid value for endIndex"})
+            }
         }
 
         if startIndex < 0 || endIndex >= len(pokedex) || startIndex > endIndex {
